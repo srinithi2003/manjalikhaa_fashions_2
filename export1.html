@@ -1,0 +1,98 @@
+<html>
+  <head>
+    <style>
+      body {
+        background-color: lightcyan;
+      }
+    </style>
+    <script></script>
+  </head>
+  <body>
+    <form method="post" action="/" name="forms">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>export</title>
+</head>
+<body>
+    <form>
+        Enter product id:
+        <input type="text" value="23" id="p_id" name="p_id"><br>
+        Enter price of product:
+        <br><input type="number" id="o_p"><br>
+        Enter the selling price of the product:
+        <input type="text"  value="1003" id="p_sellprice" name="p_sellprice"><br>
+        Enter the no of pieces sold:
+        <input type="text" id="p_quantity" value="8" name="p_quantity"><br>
+        <input type="button" value="Update" id="b3"/> 
+      
+        <table id="res"></table>
+
+        <h2 id="old"></h2>
+        <h2 id="new"></h2>
+        <h1 id="profit"></h1>
+    </form>
+</body>
+</html>
+    </form>
+    <script >
+const update=document.querySelector("#b3");
+
+
+
+update.addEventListener('click',async()=>{
+
+const id= String(document.querySelector("#p_id").value);
+var quantity= Number(document.querySelector("#p_quantity").value);
+
+var o_q=0;
+var o_p=document.getElementById("o_p").value;
+var n_p=document.getElementById("p_sellprice").value;
+
+
+
+if(id==""){
+    alert(" fields required");
+}
+else{ 
+  
+  
+    fetch("http://localhost:4000/update",{
+      
+      mode:'cors',
+      method:'put',
+      headers:{
+        'Content-Type':'application/JSON'
+      },
+      body:JSON.stringify(
+        {
+        id:id,
+        quantity:quantity
+      })
+      })
+      .then(async(e)=>{
+     
+        document.getElementById("res").innerHTML ="success";
+        
+        profit.innerHTML="Profit = "+(n_p-o_p).toFixed(0)+"  % ";
+          
+      })
+      .catch((e)=>{
+          document.getElementById("res").innerHTML ="failure";
+      })
+      
+  }
+ 
+ 
+
+
+})
+
+
+  </script>
+  </body>
+</html>
+

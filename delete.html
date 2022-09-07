@@ -1,0 +1,56 @@
+<html>
+  <head>
+    <style>
+      body {
+        background-color: lightcyan;
+      }
+    </style>
+    <script></script>
+  </head>
+  <body>
+    <form action="/" name="forms">
+        <label>Enter Your name:</label>
+            <input type="text" value="suba" name="name" id="name">
+            <br><br>
+            <input type="button" value="delete one" id="b4"/> 
+               <table id="res" ></table>
+    </form>
+    <script>
+const del=document.querySelector("#b4");
+del.addEventListener('click',async()=>{
+
+const studentname= String(document.querySelector("#name").value);
+alert(studentname);
+if(studentname==""){
+    alert(" fields required");
+}
+else{
+  alert("else");
+    fetch("http://localhost:4000/delete/",{
+mode:'cors',
+method:'delete',
+headers:{
+  'Content-Type':'application/JSON'
+},
+body:JSON.stringify({
+  Name:studentname
+})
+})
+.then(async(e)=>{
+
+        document.getElementById("res").innerHTML ="success";
+})
+.catch((e)=>{
+    document.getElementById("res").innerHTML ="failure";
+})
+
+
+}
+})
+
+
+
+    </script>
+
+    </body>
+    </html>

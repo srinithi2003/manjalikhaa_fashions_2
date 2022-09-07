@@ -1,0 +1,145 @@
+<html>
+  <head>
+    <style>
+      body {
+        background-color: lightcyan;
+      }
+    </style>
+    <script></script>
+  </head>
+  <body>
+    <form method="post" action="/" name="forms">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>export</title>
+</head>
+<body>
+    <form>
+        Enter product id:
+        <input type="text" value="23" id="p_id" name="p_id"><br>
+        Enter the selling price of the product:
+        <input type="text"  value="1003" id="p_sellprice" name="p_sellprice"><br>
+        Enter the no of pieces sold:
+        <input type="text" id="p_quantity" value="8" name="p_quantity"><br>
+        <input type="button" value="Update" id="b3"/> 
+      
+        <table id="res"></table>
+
+        <h2 id="old"></h2>
+        <h2 id="new"></h2>
+        <h1 id="profit"></h1>
+    </form>
+</body>
+</html>
+    </form>
+    <script >
+const update=document.querySelector("#b3");
+
+const profit=document.getElementById("profit");
+
+update.addEventListener('click',async()=>{
+
+const id= String(document.querySelector("#p_id").value);
+var quantity= Number(document.querySelector("#p_quantity").value);
+var n_q=quantity;
+var o_q=0;
+var o_p=0;
+var n_p=document.getElementById("p_sellprice").value;
+document.getElementById("new").innerHTML="Sold Price per piece = "+n_p;
+var v=0;
+
+
+if(id==""){
+    alert(" fields required");
+}
+else{ 
+  
+    await fetch('http://localhost:4000/get/'+id)
+    .then(async(e)=>{
+            return e.json();
+        })
+        .then(async(e1)=>
+        {  
+          
+          for(let d of e1){
+           o_p=d.price;
+           document.getElementById("old").innerHTML="Bought Price per piece = "+o_p;
+           o_q=d.quantity;
+           quantity=o_q-quantity;
+    
+          
+         }
+        }
+        )
+        .catch(async()=>{
+            console.log("ERROR");
+            result.innerHTML="ERROR";
+        })
+      
+  
+    fetch("http://localhost:4000/update",{
+      
+      mode:'cors',
+      method:'put',
+      headers:{
+        'Content-Type':'application/JSON'
+      },
+      body:JSON.stringify(
+        {
+        id:id,
+        quantity:quantity
+      })
+      })
+      .then(async(e)=>{
+     
+        document.getElementById("res").innerHTML ="success";
+        var t=(n_q*o_p);
+        v=((n_p)-(n_q))/o_p;
+        profit.innerHTML="Profit = "+(n_p-o_p).toFixed(0)+"  % ";
+          
+      })
+      .catch((e)=>{
+          document.getElementById("res").innerHTML ="failure";
+      })
+      
+  }
+ 
+ 
+
+
+})
+
+
+
+
+
+  </script>
+  </body>
+</html>
+
+
+
+
+<!-- 
+
+ .then(async(e)=>{
+               return e.json();
+         })
+   .then(async(e1)=>{
+          
+         for(let d of e1){
+           o_p=d.price;
+           o_q=d.quantity;
+           quantity=o_q-quantity;
+           document.getElementById("profit").innerHTML=quantity;
+          
+         }
+    })}
+     .catch(async()=>{
+             console.log("ERROR");
+             result.innerHTML="ERROR";
+        }) -->

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>import details</title>
+</head>
+<body>
+    <form>
+        Enter product id:
+        <input type="text" id="n1" name="id" ><br>
+        Enter product name:
+        <input type="text" id="n2" name="name" ><br>
+        Enter the no of pieces you imported:
+        <input type="text" id="n3" name="quantity" ><br>
+        Enter thr price of the product:
+        <input type="text" id="n4" name="price" ><br>
+        Enter thr category of the dress:
+        <input type="text" id="n5" name="category" ><br>
+        Enter the supplier name:
+        <input type="text" id="n6" name="s_name" ><br>
+        Enter the place you were imported:
+        <input type="text" id="n7" name="s_place" ><br>
+        Enter the mobile number of the supplier:
+        <input type="text" id="n8" name="s_tel" ><br>
+        <input type="button" id="b1" value="Submit" />
+    
+    </form>
+    
+    <script>
+      
+        const button=document.querySelector("#b1");
+        
+        button.addEventListener('click',()=>{
+        
+        /*const num1=document.querySelector("#t1").value;
+        const num2=document.querySelector("#t2").value*/
+        
+        const id=document.querySelector("#n1").value;
+        const name=document.querySelector("#n2").value;
+        const quantity=document.querySelector("#n3").value;
+        const price=document.querySelector("#n4").value;
+        const category=document.querySelector("#n5").value;
+        const s_name=document.querySelector("#n6").value;
+        const s_place=document.querySelector("#n7").value;
+        const s_tel=document.querySelector("#n8").value;
+       
+        
+        
+        if(id==""||name==""||quantity==""||price==""||category==""||s_name==""||s_place==""||s_tel=="")
+        {
+            alert("compulsory");
+        }
+        else{
+            var d=JSON.stringify({id:id,name:name,price:price,quantity:quantity,category:category,s_name:s_name,s_place:s_place,s_tel:s_tel});
+            alert(d);
+          fetch("http://localhost:4000/insert",{
+          mode:'cors',
+          method:'POST',
+          headers:{
+              'Content-Type':'application/JSON'
+          },
+          
+             body:d
+         
+        }).then(async(e)=>{
+            const data=await e.json();
+            console.log(data)
+            alert("inserted successfully");
+        })
+        .catch((e)=>{
+            alert("eror"+e);
+        })
+        alert("inserted");
+        }
+        }
+        )
+        
+        
+            </script>
+</body>
+</html>
